@@ -12,7 +12,7 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <h2>
-            {% if user.is_superuser %}Painel Administrativo{% else %}Olá, {{ user.username|title }}{% endif %}
+            {% if user.is_superuser %}Painel Administrativo{% else %}Olá, Dr {{ user.username|title }}{% endif %}
         </h2>
         <p class="text-muted">Resumo geral do seu escritório hoje.</p>
     </div>
