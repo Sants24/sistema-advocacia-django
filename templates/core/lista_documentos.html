@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-4">
+    <h2>Histórico de Documentos Gerados</h2>
+    <p class="text-muted">Registro de todas as emissões feitas pelo sistema.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Documento</th>
+                    <th>Cliente</th>
+                    <th>Gerado por</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in documentos %}
+                <tr>
+                    <td>{{ doc.data_geracao|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <span class="badge bg-info text-dark">{{ doc.tipo }}</span>
+                    </td>
+                    <td>
+                        <a href="#" class="text-decoration-none fw-bold">{{ doc.cliente.nome_completo }}</a>
+                    </td>
+                    <td>{{ doc.criado_por.username|title }}</td>
+                    <td><span class="badge bg-success">Concluído</span></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-4">Nenhum documento gerado ainda.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

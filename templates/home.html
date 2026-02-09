@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+<div class="p-5 mb-4 bg-light rounded-3 text-center">
+    <h1 class="display-5 fw-bold">Sistema Jurídico</h1>
+    <p class="fs-4">Gerencie seus processos, documentos e honorários em um só lugar.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Fazer Login</a>
+</div>
+
+{% else %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>
+            {% if user.is_superuser %}Painel Administrativo{% else %}Olá, {{ user.username|title }}{% endif %}
+        </h2>
+        <p class="text-muted">Resumo geral do seu escritório hoje.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3 h-100">
+            <div class="card-header">Total de Clientes</div>
+            <div class="card-body">
+                <h1 class="card-title">{{ total_clientes }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3 h-100">
+            <div class="card-header">Docs Gerados</div>
+            <div class="card-body">
+                <h1 class="card-title">{{ total_docs }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3 h-100">
+            <div class="card-header text-dark">A Receber</div>
+            <div class="card-body text-dark">
+                <h2 class="card-title">R$ {{ total_receber|floatformat:2 }}</h2>
+                <small>Honorários Pendentes</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3 h-100">
+            <div class="card-header">Já Recebido</div>
+            <div class="card-body">
+                <h2 class="card-title">R$ {{ total_recebido|floatformat:2 }}</h2>
+                <small>Honorários Pagos</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <strong>Últimos Documentos Gerados</strong>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for doc in ultimos_docs %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ doc.tipo }}</strong>
+                        <br>
+                        <small class="text-muted">{{ doc.cliente.nome_completo }}</small>
+                    </div>
+                    <span class="badge bg-light text-dark">{{ doc.data_geracao|date:"d/m H:i" }}</span>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-center">Nenhum documento recente.</li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer text-center">
+                <a href="{% url 'lista_documentos' %}" class="btn btn-sm btn-outline-secondary">Ver Histórico Completo</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <strong>Ações Rápidas</strong>
+            </div>
+            <div class="card-body d-grid gap-2">
+                <a href="{% url 'novo_cliente' %}" class="btn btn-primary">
+                     Cadastrar Novo Cliente
+                </a>
+                <a href="{% url 'novo_honorario' %}" class="btn btn-success">
+                     Lançar Honorário
+                </a>
+                <a href="{% url 'lista_clientes' %}" class="btn btn-outline-dark">
+                     Gerar Documento (Ir p/ Clientes)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

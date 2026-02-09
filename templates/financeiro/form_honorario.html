@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lançamento de Honorários</h2>
+<div class="card p-4 mt-3 col-md-8 mx-auto">
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label>Cliente</label>
+            {{ form.cliente }}
+        </div>
+        
+        <div class="mb-3">
+            <label>Descrição do Serviço</label>
+            {{ form.descricao }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Valor (R$)</label>
+                {{ form.valor }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Data de Vencimento</label>
+                {{ form.data_vencimento }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label>Status do Pagamento</label>
+            {{ form.status }}
+        </div>
+
+        <div class="mb-3">
+            <label>Observações</label>
+            {{ form.observacoes }}
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Salvar Lançamento</button>
+        <a href="{% url 'lista_honorarios' %}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
